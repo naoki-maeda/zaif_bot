@@ -10,4 +10,4 @@
 
 # 使い方
 * 以下のQRコードを読み取り、LINEで友達追加してください。
-! [画像](line_qr.png)
+![https://github.com/naoki-maeda/zaif_bot/images/line_qr.png](line_qr.png)
