@@ -8,14 +8,11 @@ from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
-    SourceUser, SourceGroup, SourceRoom,
     TemplateSendMessage, ConfirmTemplate, MessageTemplateAction,
-    ButtonsTemplate, URITemplateAction, PostbackTemplateAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent,
-    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
-    ImageMessage, VideoMessage, AudioMessage,
-    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent
+    ButtonsTemplate, URITemplateAction, PostbackTemplateAction,PostbackEvent,
 )
+
+from zaifapi import impl
 
 
 ACCESS_TOKEN = '3TYq/22WRBB8DXdAOQ0ymVzfsr+BmvTZhEvVrRlc3lb3sJ/yrpiUQhhPkLMKMx/lTljjidUqm8MVr59nAN1ffNwKLvsySlswx1G+d5hEa+A4PuYKdQ7uP78TiMB7gwTVaHWHkWB9vm0EnKZt2qYzhgdB04t89/1O/w1cDnyilFU='
@@ -24,6 +21,9 @@ CHANNEL_SECRET = '35e9177500815f2962713f15edf238f6'
 
 line_bot_api = LineBotApi(ACCESS_TOKEN)
 parser = WebhookParser(CHANNEL_SECRET)
+
+zaif = impl.ZaifPublicApi()
+btc = str(zaif.last_price('btc_jpy')['last_price'])
 
 
 @csrf_exempt
@@ -74,6 +74,16 @@ def callback(request):
                     template_message = TemplateSendMessage(
                         alt_text='Buttons alt text', template=buttons_template)
                     line_bot_api.reply_message(event.reply_token, template_message)
+
+                elif text == 'zaif':
+                    buttons_template = ButtonsTemplate(
+                        title = 'Zaif button', text = 'Hello, Zaif', actions=[
+                            PostbackTemplateAction(
+                                label='btc_jpy', text=btc
+                            )
+                        ]
+                    )
+
                 elif isinstance(event, PostbackEvent):
                     data = event.postback.data
                     if data == 'ping':
