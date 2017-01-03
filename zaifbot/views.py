@@ -78,9 +78,10 @@ def callback(request):
                     btc = str(zaif.last_price('btc_jpy')['last_price'])
                     buttons_template = ButtonsTemplate(
                         title = 'Zaif button', text = 'zaifのBTC価格を表示します。', actions=[
-                            PostbackTemplateAction(
-                                label='btc_jpy', text=btc
-                            ),
+                            MessageTemplateAction(label='btc_jpy', text='btc')
+                            # PostbackTemplateAction(
+                            #     label='btc_jpy', text=btc
+                            # ),
                             MessageTemplateAction(label='XEM_jpy', text='XEM')
                     ])
                     template_message = TemplateSendMessage(
