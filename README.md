@@ -10,4 +10,4 @@
 
 # 使い方
 * 以下のQRコードを読み取り、LINEで友達追加してください。
-![images](line_qr.png)
+! [画像](line_qr.png)
