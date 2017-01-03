@@ -22,8 +22,6 @@ CHANNEL_SECRET = '35e9177500815f2962713f15edf238f6'
 line_bot_api = LineBotApi(ACCESS_TOKEN)
 parser = WebhookParser(CHANNEL_SECRET)
 
-zaif = impl.ZaifPublicApi()
-btc = str(zaif.last_price('btc_jpy')['last_price'])
 
 
 @csrf_exempt
@@ -76,14 +74,19 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token, template_message)
 
                 elif text == 'zaif':
+                    zaif = impl.ZaifPublicApi()
+                    btc = str(zaif.last_price('btc_jpy')['last_price'])
                     buttons_template = ButtonsTemplate(
                         title = 'Zaif button', text = 'zaifのBTC価格を表示します。', actions=[
                             PostbackTemplateAction(
                                 label='btc_jpy', text=btc
                             ),
                             MessageTemplateAction(label='XEM_jpy', text='XEM')
-                        ]
+                    ])
+                    template_message = TemplateSendMessage(
+                        alt_text='BTC価格をお知らせします', template=buttons_template
                     )
+                    line_bot_api.reply_message(event.reply_token,template_message)
 
                 elif isinstance(event, PostbackEvent):
                     data = event.postback.data
