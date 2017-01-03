@@ -47,33 +47,7 @@ def callback(request):
         for event in events:
             if isinstance(event, MessageEvent):
                 text = event.message.text
-                if text == 'confirm':
-                    confirm_template = ConfirmTemplate(text='Do it?', actions=[
-                        MessageTemplateAction(label='Yes', text='Yes!'),
-                        MessageTemplateAction(label='No', text='No!'),
-                    ])
-                    template_message = TemplateSendMessage(
-                       alt_text='Confirm alt text', template=confirm_template)
-                    line_bot_api.reply_message(
-                       event.reply_token,
-                       template_message
-                    )
-                elif text == 'buttons':
-                    buttons_template = ButtonsTemplate(
-                        title='My buttons sample', text='Hello, my buttons', actions=[
-                            URITemplateAction(
-                                label='Go to line.me', uri='https://line.me'),
-                            PostbackTemplateAction(label='ping', data='ping'),
-                            PostbackTemplateAction(
-                                label='ping with text', data='ping',
-                                text='ping'),
-                            MessageTemplateAction(label='Translate Rice', text='米')
-                        ])
-                    template_message = TemplateSendMessage(
-                        alt_text='Buttons alt text', template=buttons_template)
-                    line_bot_api.reply_message(event.reply_token, template_message)
-
-                elif text == 'zaif':
+                if text == 'zaif':
                     zaif = impl.ZaifPublicApi()
                     btc = str(zaif.last_price('btc_jpy')['last_price'])
                     xem = str(zaif.last_price('xem_jpy')['last_price'])
@@ -90,14 +64,6 @@ def callback(request):
                         alt_text='BTC価格をお知らせします', template=buttons_template
                     )
                     line_bot_api.reply_message(event.reply_token,template_message)
-
-                elif isinstance(event, PostbackEvent):
-                    data = event.postback.data
-                    if data == 'ping':
-                        line_bot_api.reply_message(
-                        event.reply_token,
-                        TextSendMessage(text='ping postback received!')
-                    )
                 else:
                     line_bot_api.reply_message(
                         event.reply_token,
