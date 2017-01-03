@@ -65,9 +65,9 @@ def callback(request):
                         alt_text='Buttons alt text', template=buttons_template)
                     line_bot_api.reply_message(event.reply_token, template_message)
                 elif isinstance(event, PostbackEvent):
-                data = event.postback.data
-                if data == 'ping':
-                    line_bot_api.reply_message(
+                    data = event.postback.data
+                    if data == 'ping':
+                        line_bot_api.reply_message(
                         event.reply_token,
                         TextSendMessage(text='ping postback received!')
                     )
