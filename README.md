@@ -10,4 +10,8 @@
 
 # 使い方
 * 以下のQRコードを読み取り、LINEで友達追加してください。
-![https://github.com/naoki-maeda/zaif_bot/images](line_qr.png)
+![](images/line_qr.png)
+
+* zaifと入力すれば通貨ペアを表示するので選択してください。
+* 通貨ペアはbtc_jpy、xem_jpy、mona_jpy、mona_btcの4つです。
+* 現時点では返してくる値はzaifで取引されている最終取引価格のみです。
