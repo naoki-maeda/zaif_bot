@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
@@ -29,12 +29,52 @@ def callback(request):
         except LineBotApiError:
             return HttpResponseBadRequest()
 
+        # for event in events:
+        #     if isinstance(event, MessageEvent):
+        #         if isinstance(event.message, TextMessage):
+        #             line_bot_api.reply_message(
+        #                 event.reply_token,
+        #                 TextSendMessage(text=event.message.text)
+        #             )
         for event in events:
             if isinstance(event, MessageEvent):
-                if isinstance(event.message, TextMessage):
+                text = event.message.text
+                if text == 'confirm':
+                    confirm_template = ConfirmTemplate(text='Do it?', actions=[
+                        MessageTemplateAction(label='Yes', text='Yes!'),
+                        MessageTemplateAction(label='No', text='No!'),
+                    ])
+                    template_message = TemplateSendMessage(
+                       alt_text='Confirm alt text', template=confirm_template)
+                    line_bot_api.reply_message(
+                       event.reply_token,
+                       template_message
+                    )
+                elif text == 'buttons':
+                    buttons_template = ButtonsTemplate(
+                        title='My buttons sample', text='Hello, my buttons', actions=[
+                            URITemplateAction(
+                                label='Go to line.me', uri='https://line.me'),
+                            PostbackTemplateAction(label='ping', data='ping'),
+                            PostbackTemplateAction(
+                                label='ping with text', data='ping',
+                                text='ping'),
+                            MessageTemplateAction(label='Translate Rice', text='米')
+                        ])
+                    template_message = TemplateSendMessage(
+                        alt_text='Buttons alt text', template=buttons_template)
+                    line_bot_api.reply_message(event.reply_token, template_message)
+                elif isinstance(event, PostbackEvent):
+                data = event.postback.data
+                if data == 'ping':
                     line_bot_api.reply_message(
                         event.reply_token,
-                        TextSendMessage(text=event.message.text)
+                        TextSendMessage(text='ping postback received!')
+                    )
+                else:
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                       TextSendMessage(text=event.message.text)
                     )
 
         return HttpResponse()
