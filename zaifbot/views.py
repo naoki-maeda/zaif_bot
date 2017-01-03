@@ -76,13 +76,15 @@ def callback(request):
                 elif text == 'zaif':
                     zaif = impl.ZaifPublicApi()
                     btc = str(zaif.last_price('btc_jpy')['last_price'])
+                    xem = str(zaif.last_price('xem_jpy')['last_price'])
+                    mona = str(zaif.last_price('mona_jpy')['last_price'])
+                    mona_btc = str(zaif.last_price('mona_btc')['last_price'])
                     buttons_template = ButtonsTemplate(
-                        title = 'Zaif button', text = 'zaifのBTC価格を表示します。', actions=[
-                            MessageTemplateAction(label='btc_jpy', text=btc),
-                            # PostbackTemplateAction(
-                            #     label='btc_jpy', text=btc
-                            # ),
-                            MessageTemplateAction(label='XEM_jpy', text='XEM')
+                        title = 'Zaif button', text = '好きな通貨ペアを選択してください。', actions=[
+                            MessageTemplateAction(label='BTC_JPY', text=btc),
+                            MessageTemplateAction(label='XEM_JPY', text=xem),
+                            MessageTemplateAction(label='MONA_JPY', text=mona),
+                            MessageTemplateAction(label='MONA_BTC', text=mona_btc),
                     ])
                     template_message = TemplateSendMessage(
                         alt_text='BTC価格をお知らせします', template=buttons_template
