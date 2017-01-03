@@ -77,10 +77,11 @@ def callback(request):
 
                 elif text == 'zaif':
                     buttons_template = ButtonsTemplate(
-                        title = 'Zaif button', text = 'Hello, Zaif', actions=[
+                        title = 'Zaif button', text = 'zaifのBTC価格を表示します。', actions=[
                             PostbackTemplateAction(
                                 label='btc_jpy', text=btc
-                            )
+                            ),
+                            MessageTemplateAction(label='XEM_jpy', text='XEM')
                         ]
                     )
 
