@@ -15,9 +15,8 @@ from linebot.models import (
 from zaifapi import impl
 
 
-ACCESS_TOKEN = '3TYq/22WRBB8DXdAOQ0ymVzfsr+BmvTZhEvVrRlc3lb3sJ/yrpiUQhhPkLMKMx/lTljjidUqm8MVr59nAN1ffNwKLvsySlswx1G+d5hEa+A4PuYKdQ7uP78TiMB7gwTVaHWHkWB9vm0EnKZt2qYzhgdB04t89/1O/w1cDnyilFU='
-CHANNEL_SECRET = '35e9177500815f2962713f15edf238f6'
-
+ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN'
+CHANNEL_SECRET = 'YOUR_CHANNEL_SECRET'
 
 line_bot_api = LineBotApi(ACCESS_TOKEN)
 parser = WebhookParser(CHANNEL_SECRET)
@@ -37,13 +36,7 @@ def callback(request):
         except LineBotApiError:
             return HttpResponseBadRequest()
 
-        # for event in events:
-        #     if isinstance(event, MessageEvent):
-        #         if isinstance(event.message, TextMessage):
-        #             line_bot_api.reply_message(
-        #                 event.reply_token,
-        #                 TextSendMessage(text=event.message.text)
-        #             )
+
         for event in events:
             if isinstance(event, MessageEvent):
                 text = event.message.text
