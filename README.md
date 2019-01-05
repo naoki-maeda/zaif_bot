@@ -3,7 +3,7 @@
 
 # 環境構成
 * Python3.5.1
-* Django 1.10.1
+* Django 1.10.8
 * line-bot-sdk 1.0.2
 * zaifapi 1.0.1
 * サーバーはHerokuを使用しています。
